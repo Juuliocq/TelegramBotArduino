@@ -1,7 +1,9 @@
 package com.julio.demo.service;
 
+import com.julio.demo.FilaComandos;
 import com.julio.demo.config.Http;
 import com.julio.demo.model.ArduinoIP;
+import com.julio.demo.model.dto.ArduinoComandoDTO;
 import com.julio.demo.repository.ArduinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,9 @@ public class ArduinoService {
     @Autowired
     Http http;
     
+    @Autowired
+    FilaComandos filaComandos;
+    
     public void salvarIp(ArduinoIP ip) throws Exception {
         
         if (ip.getIp().isEmpty()) {
@@ -31,6 +36,7 @@ public class ArduinoService {
         }
         
         try {
+            ip.setIp("http://" + ip.getIp());
             arduinoRepository.deleteAll();
             arduinoRepository.save(ip);
         } catch (Exception ex) {
@@ -53,7 +59,7 @@ public class ArduinoService {
     }
     
     public void piscar() { 
-        String url = "http://192.168.15.21:80/piscar";
+        String url = getIp().getIp() + "/piscar";
 
         try {
             http.restTemplate().getForEntity(url, Void.class);
@@ -61,5 +67,39 @@ public class ArduinoService {
             System.err.println(ex.getMessage());
         }
         
+    }
+    
+    public void ligarLampada() { 
+        String url = getIp().getIp() + "/adicionarcomando";
+        
+        ArduinoComandoDTO comando = new ArduinoComandoDTO("/ligarlampada");
+
+        try {
+            http.restTemplate().postForEntity(url, comando, Void.class);
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+    }
+    
+    public void abrirCortina() { 
+        String url = getIp().getIp() + "/adicionarcomando";
+        
+        ArduinoComandoDTO comando = new ArduinoComandoDTO("/abrircortina");
+
+        try {
+            http.restTemplate().postForEntity(url, comando, Void.class);
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+    }
+    
+    private void executar(String comando) {
+        
+    }
+    
+    private ArduinoIP getIp() {
+        return arduinoRepository.findAll().get(0);
     }
 }

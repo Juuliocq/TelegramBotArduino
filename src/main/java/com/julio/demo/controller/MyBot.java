@@ -20,9 +20,6 @@ public class MyBot implements TelegramMvcController {
     private String token;
     
     @Autowired
-    FilaComandos filaComandos;
-    
-    @Autowired
     ArduinoService arduino;
 
     @Override
@@ -35,39 +32,18 @@ public class MyBot implements TelegramMvcController {
         return "Digite um comando válido, por favor.";
     }
     
-    @MessageRequest("/adicionar {comando:[\\S]+}")
-    public String adicionar(@BotPathVariable("comando") String comando) {
-        if (comando.toLowerCase().equals("para")) {
-            return "para você";
-        }
+    @MessageRequest("/ligarlampada")
+    public String ligarLampada() {
+        arduino.ligarLampada();
         
-        return filaComandos.addFilaComandos(comando);
+        return "Lâmpada ligada!";
     }
     
-    @MessageRequest("/executar")
-    public String executar() {
-        return filaComandos.executarProximoComando();
-    }
-    
-    @MessageRequest("/piscar")
-    public String piscar() {
+    @MessageRequest("/abrircortina")
+    public String abrirCortina() {
+        arduino.abrirCortina();
         
-    arduino.piscar();
-    return "Piscou?";
-    }
-    
-    @MessageRequest("/executar2")
-    public String executar2() {
-        return executar();
-    }
-    
-    @MessageRequest("/quantidade")
-    public String quantidade() {
-        int qtdNaFila = filaComandos.getQtdNaFila();
-        
-        String retorno = qtdNaFila == 0 ? "A fila está vazia!" : "Na fila existem " + qtdNaFila + "comandos!";
-        
-        return retorno;
-    }
+        return "cortina aberta!";
+    }  
     
 }
