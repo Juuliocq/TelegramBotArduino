@@ -3,14 +3,20 @@
 #include <WebServer.h>
 #include <ArduinoJson.h>
 
-const char* ssid = "rulio";
-const char* password = "244466666";
+const char* ssid = "Wellington - TELnet";
+const char* password = "wy25300353";
 bool isDisponivel = true;
 StaticJsonDocument<250> jsonDocument;
 char buffer[250];
 WebServer server(80);
 
 #define LED 2
+#define LAMPADA 16
+#define CORTINA 17
+
+const int freq = 5000;
+const int ledChannel = 0;
+const int resolution =  8;
 
 void setup() {
   // put your setup code here, to run once:
@@ -24,6 +30,13 @@ void setup() {
     Serial.print(".");
     delay(100);
   }
+
+if (WiFi.status() == WL_CONNECTED){
+  Serial.print("\nConnected to: ");
+  Serial.print(ssid);
+
+}
+
 
   int i;
 
@@ -52,6 +65,15 @@ void setup_routing() {
 }
 
 void handlePost() {
+
+// configure LED PWM functionalitites
+  ledcSetup(ledChannel, freq, resolution);
+  
+// attach the channel to the GPIO to be controlled
+  ledcAttachPin(CORTINA, ledChannel);
+
+
+
   if (server.hasArg("plain") == false) {
     //handle error here
   }
@@ -64,23 +86,38 @@ void handlePost() {
 
   isDisponivel = false;
 
+//Ligar e desligar lampada
+
   if (comando.equals("/ligarlampada")) {
-    digitalWrite(LED, HIGH);
-    delay(500);
-    digitalWrite(LED, LOW);
-    delay(500);
+    digitalWrite(LAMPADA, HIGH);
   }
+
+  if (comando.equals("/desligarlampada")){
+    digitalWrite(LAMPADA, LOW);
+  }
+
+//Abrir e fechar cortina
 
   if (comando.equals("/abrircortina")) {
-    digitalWrite(LED, HIGH);
-    delay(500);
-    digitalWrite(LED, LOW);
-    delay(500);
-    digitalWrite(LED, HIGH);
-    delay(500);
-    digitalWrite(LED, LOW);
+    //digitalWrite(CORTINA, HIGH);
+    //delay(500);
+     // increase the LED brightness
+    for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++){   
+      // changing the LED brightness with PWM
+      ledcWrite(ledChannel, dutyCycle);
+      delay(15);
+      ledcWrite(ledChannel, LOW);
+    }
   }
 
+  if (comando.equals("/fecharcortina")) {
+    // decrease the LED brightness
+    for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--){
+      // changing the LED brightness with PWM
+      ledcWrite(ledChannel, dutyCycle);   
+      delay(15);
+    }
+  }
   isDisponivel = true;
 
   // Respond to the client
