@@ -6,10 +6,8 @@ import com.julio.demo.model.ArduinoIP;
 import com.julio.demo.model.dto.ArduinoComandoDTO;
 import com.julio.demo.repository.ArduinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ArduinoService {
@@ -58,48 +56,24 @@ public class ArduinoService {
         return true;
     }
     
-    public void piscar() { 
-        String url = getIp().getIp() + "/piscar";
+    public String executarComando(String pComando) { 
+//        String url = getIp().getIp() + "/adicionarcomando";
+        
+        ArduinoComandoDTO comando = new ArduinoComandoDTO(pComando);
+        filaComandos.addFilaComandos(comando);
 
-        try {
-            http.restTemplate().getForEntity(url, Void.class);
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+        if (filaComandos.getQtdNaFila() > 0) {
+            return "Aguarde, existem " + filaComandos.getQtdNaFila() + " comandos pendentes.";
         }
-        
-    }
-    
-    public void ligarLampada() { 
-        String url = getIp().getIp() + "/adicionarcomando";
-        
-        ArduinoComandoDTO comando = new ArduinoComandoDTO("/ligarlampada");
 
-        try {
-            http.restTemplate().postForEntity(url, comando, Void.class);
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-        
-    }
-    
-    public void abrirCortina() { 
-        String url = getIp().getIp() + "/adicionarcomando";
-        
-        ArduinoComandoDTO comando = new ArduinoComandoDTO("/abrircortina");
-
-        try {
-            http.restTemplate().postForEntity(url, comando, Void.class);
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-        
-    }
-    
-    private void executar(String comando) {
-        
+        return "O comando " + pComando + " será executado em breve.";
+//            http.restTemplate().postForEntity(url, comando, Void.class);
     }
     
     private ArduinoIP getIp() {
         return arduinoRepository.findAll().get(0);
     }
+    
+//    @Scheduled(fixedDelay = 500)
+//    public void scheduled
 }

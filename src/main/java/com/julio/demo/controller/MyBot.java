@@ -34,16 +34,30 @@ public class MyBot implements TelegramMvcController {
     
     @MessageRequest("/ligarlampada")
     public String ligarLampada() {
-        arduino.ligarLampada();
+        arduino.executarComando("/ligarlampada");
         
         return "Lâmpada ligada!";
     }
     
+    @MessageRequest("/desligarlampada")
+    public String desligarLampada() {
+        arduino.executarComando("/desligarlampada");
+        
+        return "Lâmpada desligada!";
+    }
+    
     @MessageRequest("/abrircortina")
     public String abrirCortina() {
-        arduino.abrirCortina();
+        arduino.executarComando("/abrircortina");
         
-        return "cortina aberta!";
+        return "Cortina aberta!";
     }  
+    
+    @MessageRequest("/fecharcortina")
+    public String fecharCortina() {
+        arduino.executarComando("/fecharcortina");
+        
+        return "Cortina fechada!";
+    } 
     
 }
