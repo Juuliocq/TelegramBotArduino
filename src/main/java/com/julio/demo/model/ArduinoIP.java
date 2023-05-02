@@ -19,5 +19,10 @@ public class ArduinoIP implements Serializable {
     public void setIp(String ip) {
         this.ip = ip;
     }
+
+    @Override
+    public String toString() {
+        return ip;
+    }
     
 }

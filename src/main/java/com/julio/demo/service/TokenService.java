@@ -3,6 +3,7 @@ package com.julio.demo.service;
 import com.julio.demo.config.Http;
 import com.julio.demo.model.Token;
 import com.julio.demo.model.dto.APITokenDTO;
+import com.julio.demo.model.dto.response.TokenResponseDTO;
 import com.julio.demo.repository.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,31 +19,36 @@ public class TokenService {
     @Autowired
     Http http;
     
-    public APITokenDTO salvarToken(Token token) throws Exception {
+    public void salvarToken(Token token) throws Exception {
         
-        if (token.getToken().isEmpty()) {
-            throw new Exception("Token vazio!");
-        }
-        
-        APITokenDTO tokenDto = isTokenValido(token);
-        
-        if (tokenDto == null) {
-            throw new Exception("Token inválido!");
-        }
+//        if (token.getToken().isEmpty()) {
+//            throw new Exception("Token vazio!");
+//        }
+//        
+//        APITokenDTO tokenDto = isTokenValido(token);
+//        
+//        if (tokenDto == null) {
+//            throw new Exception("Token inválido!");
+//        }
         
         try {
             tokenRepository.deleteAll();
             tokenRepository.save(token);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
-            throw (Exception) ex;
+            throw ex;
         }
-        
-        return tokenDto;
     }
     
     public Token getToken() {
         return tokenRepository.findAll().get(0);
+    }
+    
+    public TokenResponseDTO getTokenResponse() {
+        TokenResponseDTO tokenResponse = new TokenResponseDTO();
+        tokenResponse.setToken(getToken().toString());
+        
+        return tokenResponse;
     }
     
     public APITokenDTO isTokenValido(Token token) { 

@@ -2,10 +2,12 @@ package com.julio.demo.controller;
 
 import com.julio.demo.model.Token;
 import com.julio.demo.model.dto.APITokenDTO;
+import com.julio.demo.model.dto.response.TokenResponseDTO;
 import com.julio.demo.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,21 +22,31 @@ public class TokenController {
     
     @PatchMapping(value = "/token")
     @ResponseBody
-    public ResponseEntity<APITokenDTO> patch(@RequestBody Token token) {
+    public ResponseEntity patch(@RequestBody Token token) {
         try {
             
-            APITokenDTO apiToken = tokenService.salvarToken(token);
+            tokenService.salvarToken(token);
                     
-            return new ResponseEntity<APITokenDTO>(apiToken, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return new ResponseEntity("Token inválido!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } 
     }  
     
-    @GetMapping(value = "/macaco")
-    public void macaco() {
-        System.out.println("macaco");
-    } 
+    @CrossOrigin
+    @GetMapping(value = "/token")
+    public ResponseEntity<TokenResponseDTO> get() {
+        try {
+            
+            TokenResponseDTO tokenResponse = tokenService.getTokenResponse();
+                    
+            return new ResponseEntity<>(tokenResponse, HttpStatus.OK);
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } 
+    }
 }

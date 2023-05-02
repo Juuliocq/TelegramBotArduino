@@ -4,6 +4,8 @@ import com.julio.demo.FilaComandos;
 import com.julio.demo.config.Http;
 import com.julio.demo.model.ArduinoIP;
 import com.julio.demo.model.dto.ArduinoComandoDTO;
+import com.julio.demo.model.dto.response.IPArduinoResponse;
+import com.julio.demo.model.dto.response.TokenResponseDTO;
 import com.julio.demo.repository.ArduinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,14 +29,14 @@ public class ArduinoService {
             throw new Exception("IP vazio!");
         }
         
-        boolean encontrouArduino = isIpValido(ip);
+        //boolean encontrouArduino = isIpValido(ip);
         
-        if (!encontrouArduino) {
-            throw new Exception("IP inválido!");
-        }
+//        if (!encontrouArduino) {
+//            throw new Exception("IP inválido!");
+//        }
         
         try {
-            ip.setIp("http://" + ip.getIp());
+            ip.setIp(ip.getIp());
             arduinoRepository.deleteAll();
             arduinoRepository.save(ip);
         } catch (Exception ex) {
@@ -72,6 +74,13 @@ public class ArduinoService {
     
     private ArduinoIP getIp() {
         return arduinoRepository.findAll().get(0);
+    }
+    
+    public IPArduinoResponse getIpResponse() {
+        IPArduinoResponse ipResponse = new IPArduinoResponse();
+        ipResponse.setToken(getIp().toString());
+        
+        return ipResponse;
     }
     
 //    @Scheduled(fixedDelay = 500)
