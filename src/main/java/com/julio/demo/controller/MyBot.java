@@ -60,4 +60,18 @@ public class MyBot implements TelegramMvcController {
         return "Cortina fechada!";
     } 
     
+    @MessageRequest("/ligarpc")
+    public String ligarPc() {
+        arduino.executarComando("/ligarpc");
+        
+        return "Cortina fechada!";
+    } 
+    
+    @MessageRequest("/desligarpc")
+    public String desligarPc() {
+        arduino.executarComando("/desligarpc");
+        
+        return "Cortina fechada!";
+    } 
+    
 }

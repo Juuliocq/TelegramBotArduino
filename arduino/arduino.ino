@@ -3,8 +3,8 @@
 #include <WebServer.h>
 #include <ArduinoJson.h>
 
-const char* ssid = "Wellington - TELnet";
-const char* password = "wy25300353";
+const char* ssid = "Julio";
+const char* password = "isabelle240213";
 bool isDisponivel = true;
 StaticJsonDocument<250> jsonDocument;
 char buffer[250];
@@ -13,6 +13,7 @@ WebServer server(80);
 #define LED 2
 #define LAMPADA 16
 #define CORTINA 17
+#define PC 32
 
 const int freq = 5000;
 const int ledChannel = 0;
@@ -22,6 +23,9 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   pinMode(LED, OUTPUT);
+  pinMode(PC, OUTPUT);
+
+  digitalWrite(PC, HIGH);
 
   WiFi.begin(ssid, password);
   Serial.println("\nConnecting");
@@ -118,6 +122,18 @@ void handlePost() {
       delay(15);
     }
   }
+
+    if (comando.equals("/ligarpc")) {
+      digitalWrite(PC, LOW);
+      delay(1000);
+      digitalWrite(PC, HIGH);
+    }
+
+    if (comando.equals("/desligarpc")) {
+      digitalWrite(PC, LOW);
+      delay(3000);
+      digitalWrite(PC, HIGH);
+    }
   isDisponivel = true;
 
   // Respond to the client
