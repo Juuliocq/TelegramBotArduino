@@ -32,46 +32,87 @@ public class MyBot implements TelegramMvcController {
         return "Digite um comando válido, por favor.";
     }
     
-    @MessageRequest("/ligarlampada")
+    //Cômodos inferiores
+    @MessageRequest("/acender_garagem")
     public String ligarLampada() {
-        arduino.executarComando("/ligarlampada");
+        arduino.executarComando("/acender_garagem");
         
-        return "Lâmpada ligada!";
+        return "Lâmpada da garagem acesa!";
     }
     
-    @MessageRequest("/desligarlampada")
+    @MessageRequest("/apagar_garagem")
     public String desligarLampada() {
-        arduino.executarComando("/desligarlampada");
+        arduino.executarComando("/apagar_garagem");
         
-        return "Lâmpada desligada!";
+        return "Lâmpada da garagem apagada!";
     }
     
-    @MessageRequest("/abrircortina")
-    public String abrirCortina() {
-        arduino.executarComando("/abrircortina");
+    @MessageRequest("/acender_banheiro_1")
+    public String ligarLampada2() {
+        arduino.executarComando("/acender_banheiro_1");
         
-        return "Cortina aberta!";
+        return "Lâmpada banheiro 1 acesa!";
+    }
+    
+    @MessageRequest("/apagar_banheiro_2")
+    public String desligarLampada2() {
+        arduino.executarComando("/apagar_banheiro_1");
+        
+        return "Lâmpada banheiro 1 apagada!";
+    }
+    @MessageRequest("/acender_sala")
+    public String ligarLampada3() {
+        arduino.executarComando("/acender_sala");
+        
+        return "Lâmpada sala acesa!";
+    }
+    
+    @MessageRequest("/acender_sala")
+    public String desligarLampada3() {
+        arduino.executarComando("/apagar_sala");
+        
+        return "Lâmpada sala apagada!";
+    }
+    
+    //Cômodos superiores
+    @MessageRequest("/acender_quarto_1")
+    public String ligarLampada4() {
+        arduino.executarComando("/acender_quarto_1");
+        
+        return "Lâmpada quarto 1 acesa!";
+    }
+    
+    @MessageRequest("/apagar_quarto_1")
+    public String desligarLampada4() {
+        arduino.executarComando("/apagar_quarto_1");
+        
+        return "Lâmpada quarto 1 apagada!";
+    }
+    
+    @MessageRequest("/acender_quarto_2")
+    public String ligarLampada5() {
+        arduino.executarComando("/acender_quarto_2");
+        
+        return "Lâmpada quarto 2 acesa!";
+    }
+    
+    @MessageRequest("/apagar_quarto_2")
+    public String desligarLampada5() {
+        arduino.executarComando("/apagar_quarto_2");
+        
+        return "Lâmpada quarto 2 apagada!";
     }  
-    
-    @MessageRequest("/fecharcortina")
-    public String fecharCortina() {
-        arduino.executarComando("/fecharcortina");
+    @MessageRequest("/acender_banheiro_2")
+    public String ligarLampada6() {
+        arduino.executarComando("/acender_banheiro_2");
         
-        return "Cortina fechada!";
-    } 
+        return "Lâmpada banheiro 2 acesa!";
+    }
     
-    @MessageRequest("/ligarpc")
-    public String ligarPc() {
-        arduino.executarComando("/ligarpc");
+    @MessageRequest("/apagar_banheiro_2")
+    public String desligarLampada6() {
+        arduino.executarComando("/apagar_banheiro_2");
         
-        return "Cortina fechada!";
-    } 
-    
-    @MessageRequest("/desligarpc")
-    public String desligarPc() {
-        arduino.executarComando("/desligarpc");
-        
-        return "Cortina fechada!";
-    } 
-    
+        return "Lâmpada banheiro 2 apagada!";
+    }  
 }

@@ -59,17 +59,12 @@ public class ArduinoService {
     }
     
     public String executarComando(String pComando) { 
-//        String url = getIp().getIp() + "/adicionarcomando";
+        String url = getIp().getIp() + "/adicionarcomando";
         
         ArduinoComandoDTO comando = new ArduinoComandoDTO(pComando);
-        filaComandos.addFilaComandos(comando);
-
-        if (filaComandos.getQtdNaFila() > 0) {
-            return "Aguarde, existem " + filaComandos.getQtdNaFila() + " comandos pendentes.";
-        }
-
-        return "O comando " + pComando + " será executado em breve.";
-//            http.restTemplate().postForEntity(url, comando, Void.class);
+        http.restTemplate().postForEntity(url, comando, Void.class);
+        
+        return "O";
     }
     
     private ArduinoIP getIp() {
@@ -82,7 +77,4 @@ public class ArduinoService {
         
         return ipResponse;
     }
-    
-//    @Scheduled(fixedDelay = 500)
-//    public void scheduled
 }
