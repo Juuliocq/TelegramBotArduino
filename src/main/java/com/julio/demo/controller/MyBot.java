@@ -54,7 +54,7 @@ public class MyBot implements TelegramMvcController {
         return "Lâmpada banheiro 1 acesa!";
     }
     
-    @MessageRequest("/apagar_banheiro_2")
+    @MessageRequest("/apagar_banheiro_1")
     public String desligarLampada2() {
         arduino.executarComando("/apagar_banheiro_1");
         
@@ -67,7 +67,7 @@ public class MyBot implements TelegramMvcController {
         return "Lâmpada sala acesa!";
     }
     
-    @MessageRequest("/acender_sala")
+    @MessageRequest("/apagar_sala")
     public String desligarLampada3() {
         arduino.executarComando("/apagar_sala");
         
