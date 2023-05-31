@@ -115,4 +115,18 @@ public class MyBot implements TelegramMvcController {
         
         return "Lâmpada banheiro 2 apagada!";
     }  
+    
+    @MessageRequest("/acender_todas")
+    public String ligarTodas() {
+        arduino.executarComando("/acender_todas");
+        
+        return "Todas as lâmpadas ligadas!";
+    }
+    
+    @MessageRequest("/apagar_todas")
+    public String desligarTodas() {
+        arduino.executarComando("/apagar_todas");
+        
+        return "Todas as lâmpadas desligadas!";
+    }  
 }

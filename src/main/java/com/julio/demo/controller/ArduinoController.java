@@ -49,17 +49,4 @@ public class ArduinoController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } 
     }
-    
-    @CrossOrigin
-    @GetMapping(value = "/valid")
-    public ResponseEntity valid() {
-        try {
-                    
-            return new ResponseEntity(HttpStatus.OK);
-
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        } 
-    }
 }

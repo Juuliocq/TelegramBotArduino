@@ -3,8 +3,8 @@
 #include <WebServer.h>
 #include <ArduinoJson.h>
 
-const char* ssid = "Wellington - TELnet";
-const char* password = "wy25300353";
+const char* ssid = "rulio";
+const char* password = "244466666";
 bool isDisponivel = true;
 StaticJsonDocument<250> jsonDocument;
 char buffer[250];
@@ -177,40 +177,26 @@ void handlePost() {
     Serial.print("\nLampada 4 desligada");
   }
 
-/*
-  // Aumenta velocidade
-  if (comando.equals("/ligarvent1")){
-    for(int dutyCycle = 0; dutyCycle <= 85; dutyCycle++){   
-      // changing the LED brightness with PWM
-      ledcWrite(ledChannel, dutyCycle);
-      delay(15);
-    }
-  }
-  // Aumenta velocidade
-  if (comando.equals("/ligarvent2")){
-    for(int dutyCycle = 0; dutyCycle <= 170; dutyCycle++){   
-      // changing the LED brightness with PWM
-      ledcWrite(ledChannel, dutyCycle);
-      delay(15);
-    }
-  }  // Aumenta velocidade
-  if (comando.equals("/ligarvent3")){
-    for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++){   
-      // changing the LED brightness with PWM
-      ledcWrite(ledChannel, dutyCycle);
-      delay(15);
-    }
+  if (comando.equals("/acender_todas")) {
+    digitalWrite(LAMP_GAR1, HIGH);
+    digitalWrite(LAMP_BANH1, HIGH);
+    digitalWrite(LAMP_SALA, HIGH);
+    digitalWrite(LAMP_QUART1, HIGH);
+    digitalWrite(LAMP_QUART2, HIGH);
+    digitalWrite(LAMP_BANH2, HIGH);
+    Serial.print("\nTodas as lâmpadas ligadas!");
   }
 
-  // Desliga
-  if (comando.equals("/desligarvent")){
-    for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--){
-      // changing the LED brightness with PWM
-      ledcWrite(ledChannel, dutyCycle);   
-      delay(15);
-    }
+  if (comando.equals("/apagar_todas")){
+    digitalWrite(LAMP_GAR1, LOW);
+    digitalWrite(LAMP_BANH1, LOW);
+    digitalWrite(LAMP_SALA, LOW);
+    digitalWrite(LAMP_QUART1, LOW);
+    digitalWrite(LAMP_QUART2, LOW);
+    digitalWrite(LAMP_BANH2, LOW);
+    Serial.print("\nTodas as lâmpadas ligadas!");
   }
-*/
+  
   isDisponivel = true;
 
   // Respond to the client

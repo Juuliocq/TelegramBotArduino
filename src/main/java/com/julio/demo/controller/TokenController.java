@@ -20,6 +20,7 @@ public class TokenController {
     @Autowired
     TokenService tokenService;
     
+    @CrossOrigin
     @PatchMapping(value = "/token")
     @ResponseBody
     public ResponseEntity patch(@RequestBody Token token) {
